@@ -1,0 +1,74 @@
+[
+  {
+    "id": "rb-cache-latency",
+    "title": "Mitigate inference latency after cache regression",
+    "summary": "Use cache hit rate, worker saturation, and deploy diff analysis to isolate post-release latency spikes.",
+    "tags": [
+      "latency",
+      "inference",
+      "cache",
+      "deploy",
+      "queue"
+    ],
+    "steps": [
+      "Compare p50 / p95 / p99 metrics before and after the release.",
+      "Inspect cache hit rate and request queue depth for the affected service.",
+      "Throttle traffic or rollback if worker saturation continues to rise.",
+      "Validate autoscaling, concurrency limits, and dependency latencies."
+    ]
+  },
+  {
+    "id": "rb-auth-rotation",
+    "title": "Recover from secret rotation or auth token failure",
+    "summary": "Validate issued tokens, secret distribution, and downstream permissions after auth-related failures.",
+    "tags": [
+      "auth",
+      "token",
+      "secret",
+      "rbac",
+      "rotation"
+    ],
+    "steps": [
+      "Check recent secret rotations and confirm the active version in the failing service.",
+      "Inspect IAM or RBAC changes for the principal used by the service.",
+      "Rotate or refresh tokens and retry a single canary request.",
+      "Audit downstream 401 / 403 responses to isolate the failing dependency."
+    ]
+  },
+  {
+    "id": "rb-memory-pressure",
+    "title": "Contain memory pressure in model serving workloads",
+    "summary": "Diagnose memory regressions caused by larger model footprints, batch size changes, or cache retention.",
+    "tags": [
+      "memory",
+      "oom",
+      "gpu",
+      "batch",
+      "serving"
+    ],
+    "steps": [
+      "Inspect container RSS and GPU memory usage over the last deployment window.",
+      "Reduce batch size, prefetch depth, or cache retention until the service stabilizes.",
+      "Look for recent model or tokenizer changes that increase resident footprint.",
+      "Rollback the deployment if eviction or OOM kill events continue."
+    ]
+  },
+  {
+    "id": "rb-network-dns",
+    "title": "Investigate network connectivity and DNS failures",
+    "summary": "Use dependency error rates, name resolution metrics, and connection traces to isolate connectivity issues.",
+    "tags": [
+      "network",
+      "dns",
+      "timeout",
+      "connection",
+      "service-mesh"
+    ],
+    "steps": [
+      "Check DNS resolution timing and service mesh or load balancer health.",
+      "Validate egress rules, certificates, and endpoint reachability.",
+      "Inspect timeout distribution and dependency-specific failure concentration.",
+      "Fail over or route around unhealthy endpoints if available."
+    ]
+  }
+]
