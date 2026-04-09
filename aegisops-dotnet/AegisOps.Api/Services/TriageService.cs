@@ -20,9 +20,7 @@ public sealed class TriageService
 
     public async Task<TriageAssessment> AssessAsync(IncidentRecord incident, CancellationToken cancellationToken)
     {
-        var corpus = $"{incident.Title}
-{incident.Description}
-{string.Join(' ', incident.Logs)}".ToLowerInvariant();
+        var corpus = $"{incident.Title}\n{incident.Description}\n{string.Join(' ', incident.Logs)}".ToLowerInvariant();
         var category = Classify(corpus);
         var severity = ScoreSeverity(corpus);
         var evidence = ExtractEvidence(incident, category, severity);
@@ -147,16 +145,13 @@ public sealed class TriageService
 - Classified as **{category}** with **{severity}** severity.
 
 ## Likely causes
-- {string.Join("
-- ", rootCauses)}
+- {string.Join("\n- ", rootCauses)}
 
 ## Immediate actions
-- {string.Join("
-- ", actions)}
+- {string.Join("\n- ", actions)}
 
 ## Suggested runbooks
-- {string.Join("
-- ", runbooks.Select(r => r.Title))}
+- {string.Join("\n- ", runbooks.Select(r => r.Title))}
 """;
     }
 

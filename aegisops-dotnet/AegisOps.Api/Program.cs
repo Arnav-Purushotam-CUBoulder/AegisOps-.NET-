@@ -9,6 +9,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IncidentRepository>();
 builder.Services.AddSingleton<KnowledgeBaseService>();
 builder.Services.AddSingleton<OpenAiSummaryClient>();
+builder.Services.AddSingleton<TriageArchiveService>();
 builder.Services.AddSingleton<TriageService>();
 
 var app = builder.Build();
@@ -37,12 +38,13 @@ app.MapPost("/api/incidents", (CreateIncidentRequest request, IncidentRepository
     return Results.Created($"/api/incidents/{incident.Id}", incident);
 });
 
-app.MapPost("/api/triage", async (CreateIncidentRequest request, IncidentRepository repository, TriageService triageService, CancellationToken cancellationToken) =>
+app.MapPost("/api/triage", async (CreateIncidentRequest request, IncidentRepository repository, TriageService triageService, TriageArchiveService archiveService, CancellationToken cancellationToken) =>
 {
     var incident = repository.SaveIncident(request);
     var triage = await triageService.AssessAsync(incident, cancellationToken);
     repository.SaveTriage(incident.Id, triage);
-    return Results.Ok(new { incident, triage });
+    var archive = await archiveService.ArchiveAsync(incident, triage, cancellationToken);
+    return Results.Ok(new { incident, triage, archive });
 });
 
 app.Run();

@@ -45,3 +45,8 @@ public sealed record TriageAssessment(
     IReadOnlyList<SimilarIncident> SimilarIncidents,
     string ExecutiveSummary,
     DateTime GeneratedAtUtc);
+
+public sealed record TriageArchiveResult(
+    string Provider,
+    string Location,
+    DateTime ArchivedAtUtc);

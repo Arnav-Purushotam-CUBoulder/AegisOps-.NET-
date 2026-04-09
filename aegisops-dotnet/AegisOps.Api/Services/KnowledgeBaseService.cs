@@ -57,8 +57,7 @@ public sealed class KnowledgeBaseService
     }
 
     private static HashSet<string> Tokenize(string text) =>
-        text.Split([' ', '
-', '', '	', ',', '.', ':', ';', '-', '_', '/', '(', ')'], StringSplitOptions.RemoveEmptyEntries)
+        text.Split([' ', '\n', '\r', '\t', ',', '.', ':', ';', '-', '_', '/', '(', ')'], StringSplitOptions.RemoveEmptyEntries)
             .Select(x => x.Trim().ToLowerInvariant())
             .Where(x => x.Length > 2)
             .ToHashSet();
