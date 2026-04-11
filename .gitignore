@@ -1,4 +1,6 @@
 aegisops-dotnet/AegisOps.Api/bin/
 aegisops-dotnet/AegisOps.Api/obj/
+aegisops-dotnet/AegisOps.Api.Tests/bin/
+aegisops-dotnet/AegisOps.Api.Tests/obj/
 aegisops-dotnet/AegisOps.Api/Data/*.db
 aegisops-dotnet/AegisOps.Api/Data/triage-exports/
